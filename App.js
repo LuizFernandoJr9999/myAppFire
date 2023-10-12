@@ -1,19 +1,28 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, SafeAreaView } from "react-native";
 import firebase from "./src/firebaseConnection"; // Importe o arquivo de configuração
+import Login from "./src/components/Login";
 
 export default function App() {
+  const [user, setUser] = useState(null);
+
+  if (!user) {
+    return <Login />;
+  }
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.texto}>App Tarefas</Text>
-    </View>
+    <SafeAreaView style={styles.container}>
+      <Text style={styles.texto}>DENTRO DA TELA TAREFAS</Text>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    margin: 15,
+    paddingTop: 25,
+    paddingHorizontal: 10,
+    backgroundColor: "#fef6fc",
   },
   texto: {
     fontSize: 20,
