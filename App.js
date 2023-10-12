@@ -13,34 +13,39 @@ import firebase from "./src/firebaseConnection"; // Importe o arquivo de configu
 export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
+  const [name, setName] = useState("");
 
-  async function logar() {
+  async function cadastrar() {
     await firebase
       .auth()
-      .signInWithEmailAndPassword(email, password)
+      .createUserWithEmailAndPassword(email, password)
       .then((value) => {
-        alert("Bem-vindo: " + value.user.email);
-        setUser(value.user.email);
+        //alert(value.user.uid);
+        firebase.database().ref("usuarios").child(value.user.uid).set({
+          nome: name,
+          email: password,
+        });
+        alert("Usuario criado com Sucesso!");
+        setName("");
+        setEmail("");
+        setPassword("");
       })
       .catch((error) => {
-        alert("Ops algo deu errado!");
-        setUser("");
-        return;
+        alert("Algo deu errado!");
       });
-    setEmail("");
-    setPassword("");
-  }
-
-  async function logout() {
-    await firebase.auth().signOut();
-    setUser("");
-    alert("Deslogado com sucesso!");
   }
 
   return (
     <View style={styles.container}>
+      <Text style={styles.texto}>Nome</Text>
+      <TextInput
+        style={styles.input}
+        underlineColorAndroid="transparent"
+        onChangeText={(texto) => setName(texto)}
+        value={name}
+      />
       <Text style={styles.texto}>Email</Text>
+
       <TextInput
         style={styles.input}
         underlineColorAndroid="transparent"
@@ -56,15 +61,7 @@ export default function App() {
         value={password}
       />
 
-      <Button title="Acessar" onPress={logar} />
-
-      <Text style={styles.resposta}>{user}</Text>
-
-      {user.length > 0 ? (
-        <Button title="Deslogar" onPress={logout} />
-      ) : (
-        <Text style={styles.resposta}>Nenhum usuário está logado.</Text>
-      )}
+      <Button title="Cadastrar" onPress={cadastrar} />
     </View>
   );
 }

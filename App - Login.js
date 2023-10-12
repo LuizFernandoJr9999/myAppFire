@@ -13,24 +13,8 @@ import firebase from "./src/firebaseConnection"; // Importe o arquivo de configu
 export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState("");
 
-  async function logar() {
-    await firebase
-      .auth()
-      .signInWithEmailAndPassword(email, password)
-      .then((value) => {
-        alert("Bem-vindo: " + value.user.email);
-        setUser(value.user.email);
-      })
-      .catch((error) => {
-        alert("Ops algo deu errado!");
-        setUser("");
-        return;
-      });
-    setEmail("");
-    setPassword("");
-  }
+  async function logar() {}
 
   async function logout() {
     await firebase.auth().signOut();
