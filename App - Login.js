@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import firebase from "./src/firebaseConnection"; // Importe o arquivo de configuração
-
+//Comentário
 export default function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
