@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, SafeAreaView } from "react-native";
-import firebase from "./src/firebaseConnection"; // Importe o arquivo de configuração
+//import firebase from "./src/firebaseConnection"; // Importe o arquivo de configuração
 import Login from "./src/components/Login";
 
 export default function App() {
