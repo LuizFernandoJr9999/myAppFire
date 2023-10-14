@@ -10,7 +10,7 @@ import {
 
 import firebase from "../../services/firebaseConnection";
 
-export default function Login() {
+export default function Login({ changeStatus }) {
   const [type, setType] = useState("login");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -22,7 +22,8 @@ export default function Login() {
         .auth()
         .signInWithEmailAndPassword(email, password)
         .then((user) => {
-          console.log(user.user);
+          //console.log(user.user);
+          changeStatus(user.user.uid);
         })
         .catch((err) => {
           console.log(err);
@@ -35,7 +36,8 @@ export default function Login() {
         .auth()
         .createUserWithEmailAndPassword(email, password)
         .then((user) => {
-          console.log(user.user);
+          //console.log(user.user);
+          changeStatus(user.user.uid);
         })
         .catch((err) => {
           console.log(err);
