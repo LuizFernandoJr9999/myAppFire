@@ -10,7 +10,7 @@ import Feather from "react-native-vector-icons/Feather";
 
 //export default function TaskList({props}) {
 //<Text> {props.data.nome</Text>
-
+//Comentário
 export default function TaskList({ data, deleteItem, editItem }) {
   return (
     <View style={styles.container}>
