@@ -7,20 +7,46 @@ import {
   TextInput,
   TouchableOpacity,
   FlatList,
+  Keyboard,
 } from "react-native";
 //import firebase from "./src/firebaseConnection"; // Importe o arquivo de configuração
 import Login from "./src/components/Login";
 import TaskList from "./src/components/TaskList";
 
-let tasks = [
-  { key: "111111", nome: "Comprar coca-cola" },
-  { key: "2111111", nome: "Estudar javascript" },
-];
+import firebase from "./src/services/firebaseConnection";
+
+let tasks = [];
 
 export default function App() {
   const [user, setUser] = useState(null);
-
+  const [tasks, setTasks] = useState([]);
   const [newTask, setNewTask] = useState("");
+
+  function handleAdd() {
+    if (newTask === "") {
+      return;
+    }
+
+    let tarefas = firebase.database().ref("tarefas").child(user);
+    let chave = tarefas.push().key;
+
+    tarefas
+      .child(chave)
+      .set({
+        nome: newTask,
+      })
+      .then(() => {
+        const data = {
+          key: chave,
+          nome: newTask,
+        };
+
+        setTasks((oldTasks) => [...oldTasks, data]);
+      });
+
+    Keyboard.dismiss(); // o teclado será fechado.
+    setNewTask("");
+  }
 
   function handleDelete(key) {
     console.log(key);
@@ -43,7 +69,7 @@ export default function App() {
           value={newTask}
           onChangeText={(text) => setNewTask(text)}
         />
-        <TouchableOpacity style={styles.buttonAdd}>
+        <TouchableOpacity style={styles.buttonAdd} onPress={handleAdd}>
           <Text style={styles.buttonText}>+</Text>
         </TouchableOpacity>
       </View>
