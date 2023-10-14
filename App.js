@@ -1,10 +1,26 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, SafeAreaView } from "react-native";
+import {
+  View,
+  Text,
+  StyleSheet,
+  SafeAreaView,
+  TextInput,
+  TouchableOpacity,
+  FlatList,
+} from "react-native";
 //import firebase from "./src/firebaseConnection"; // Importe o arquivo de configuração
 import Login from "./src/components/Login";
+import TaskList from "./src/components/TaskList";
+
+let tasks = [
+  { key: "1", nome: "Comprar coca-cola" },
+  { key: "2", nome: "Estudar javascript" },
+];
 
 export default function App() {
   const [user, setUser] = useState(null);
+
+  const [newTask, setNewTask] = useState("");
 
   if (!user) {
     return <Login changeStatus={(user) => setUser(user)} />;
@@ -12,7 +28,23 @@ export default function App() {
 
   return (
     <SafeAreaView style={styles.container}>
-      <Text style={styles.texto}>DENTRO DA TELA TAREFAS</Text>
+      <View style={styles.containerTask}>
+        <TextInput
+          style={styles.input}
+          placeholder="Qual a sua próxima tarefa?"
+          value={newTask}
+          onChangeText={(text) => setNewTask(text)}
+        />
+        <TouchableOpacity style={styles.buttonAdd}>
+          <Text style={styles.buttonText}>+</Text>
+        </TouchableOpacity>
+      </View>
+
+      <FlatList
+        data={tasks}
+        keyExtractor={(item) => item.key}
+        renderItem={({ item }) => <TaskList data={item} />}
+      />
     </SafeAreaView>
   );
 }
@@ -26,5 +58,33 @@ const styles = StyleSheet.create({
   },
   texto: {
     fontSize: 20,
+  },
+  containerTask: {
+    flexDirection: "row",
+    color: "#fef6fc",
+    backgroundColor: "#fafa",
+  },
+  input: {
+    flex: 1,
+    marginBottom: 10,
+    padding: 10,
+    backgroundColor: "#FFF",
+    borderRadius: 4,
+    borderWidth: 1,
+    borderColor: "#141414",
+    height: 45,
+  },
+  buttonAdd: {
+    backgroundColor: "#141414",
+    height: 45,
+    alignItems: "center",
+    justifyContent: "center",
+    marginLeft: 5,
+    paddingHorizontal: 14,
+    borderRadius: 4,
+  },
+  buttonText: {
+    color: "#FFF",
+    fontSize: 22,
   },
 });
