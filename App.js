@@ -53,7 +53,7 @@ export default function App() {
   }
 
   function handleEdit(data) {
-    console.log("ITEM CLICADO", data);
+    console.log("ITEM CLICADO", { data });
   }
 
   if (!user) {
