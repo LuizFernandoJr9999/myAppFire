@@ -13,14 +13,22 @@ import Login from "./src/components/Login";
 import TaskList from "./src/components/TaskList";
 
 let tasks = [
-  { key: "1", nome: "Comprar coca-cola" },
-  { key: "2", nome: "Estudar javascript" },
+  { key: "111111", nome: "Comprar coca-cola" },
+  { key: "2111111", nome: "Estudar javascript" },
 ];
 
 export default function App() {
   const [user, setUser] = useState(null);
 
   const [newTask, setNewTask] = useState("");
+
+  function handleDelete(key) {
+    console.log(key);
+  }
+
+  function handleEdit(data) {
+    console.log("ITEM CLICADO", data);
+  }
 
   if (!user) {
     return <Login changeStatus={(user) => setUser(user)} />;
@@ -43,7 +51,13 @@ export default function App() {
       <FlatList
         data={tasks}
         keyExtractor={(item) => item.key}
-        renderItem={({ item }) => <TaskList data={item} />}
+        renderItem={({ item }) => (
+          <TaskList
+            data={item}
+            deleteItem={handleDelete}
+            editItem={handleEdit}
+          />
+        )}
       />
     </SafeAreaView>
   );
@@ -61,8 +75,7 @@ const styles = StyleSheet.create({
   },
   containerTask: {
     flexDirection: "row",
-    color: "#fef6fc",
-    backgroundColor: "#fafa",
+    backgroundColor: "#fef6fc",
   },
   input: {
     flex: 1,
